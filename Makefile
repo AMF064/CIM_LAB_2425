@@ -1,6 +1,6 @@
 ANL := ghdl -a # analyze
 ELA := ghdl -e # elaborate
-TARGETS := GenSen temporizador
+TARGETS := GenSen temporizador rom
 SRC := ${TARGETS:%=%.vhd}
 
 .PHONY: all ${TARGETS} clean
@@ -11,6 +11,10 @@ GenSen: GenSen.vhd
 	${ELA} $@
 
 temporizador: temporizador.vhd
+	${ANL} $<
+	${ELA} $@
+
+rom: rom.vhd
 	${ANL} $<
 	${ELA} $@
 
