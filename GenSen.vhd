@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 entity GenSen is
     port (Clk, Reset : in std_logic;
-          per : in std_logic(1 downto 0);
+          per : in std_logic_vector(1 downto 0);
           led : out signed(7 downto 0);
           dac : out unsigned(7 downto 0));
 end GenSen;
