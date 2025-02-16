@@ -1,6 +1,6 @@
 ANL := ghdl -a # analyze
 ELA := ghdl -e # elaborate
-TARGETS := GenSen rom
+TARGETS := GenSen rom GenSen_tb
 SRC := ${TARGETS:%=%.vhd}
 
 .PHONY: all ${TARGETS} clean
@@ -11,6 +11,10 @@ GenSen: GenSen.vhd rom
 	${ELA} $@
 
 rom: rom.vhd
+	${ANL} $<
+	${ELA} $@
+
+GenSen_tb: GenSen_tb.vhd GenSen rom
 	${ANL} $<
 	${ELA} $@
 
