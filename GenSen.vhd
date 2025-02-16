@@ -19,30 +19,24 @@ architecture behaviour of GenSen is
 
     component rom is
         port (address : in natural range 0 to 15;
-              data_out : out std_logic_vector(7 downto 0));
+              data_out : out signed(7 downto 0));
     end component;
 
     signal max_count_s, timer_s : natural range 0 to 3900;
     signal ptr_s : natural range 0 to 15;
-    signal data_s : std_logic_vector(7 downto 0);
+    signal data_s : signed(7 downto 0);
     signal eoc_s : std_logic;
 begin
 
-    led <= signed(data_s);
-    dac <= signed(data_s) + 128;
-
-    eoc_s <= '1' when timer_s = max_count_s, else '0';
+    led <= data_s;
+    dac <= unsigned(data_s + 128);
+    eoc_s <= '1' when timer_s = max_count_s else '0';
 
     with per select
         max_count_s <=  600 when "00",
                        1000 when "01",
                        2200 when "10",
                        3900 when others;
-
-    sine_rom: rom
-    port map (
-        address => ptr_s,
-        data_out => data_s);
 
     timer: process(Clk, Reset)
     begin
@@ -53,6 +47,8 @@ begin
                 timer_s <= 0;
             else
                 timer_s <= timer_s + 1;
+            end if;
+        end if;
     end process;
 
     pointer: process(Clk, Reset)
@@ -69,4 +65,9 @@ begin
             end if;
         end if;
     end process;
+
+    sine_rom: rom
+    port map (
+        address => ptr_s,
+        data_out => data_s);
 end architecture;

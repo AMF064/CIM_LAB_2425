@@ -6,7 +6,7 @@ SRC := ${TARGETS:%=%.vhd}
 .PHONY: all ${TARGETS} clean
 all: ${TARGETS}
 
-GenSen: GenSen.vhd
+GenSen: GenSen.vhd rom
 	${ANL} $<
 	${ELA} $@
 
