@@ -1,8 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- Maximum frequency: 3900 Hz
 entity temporizador is
-    generic ( MaxCount : natural );
+    generic (MaxCount : natural range 0 to 3900);
     port (clk, reset : in std_logic; eoc : out std_logic);
 end temporizador;
 
