@@ -10,10 +10,10 @@ entity GenSen is
 end GenSen;
 
 -- Grupo 20:
---     00 :  600
---     01 : 1000
---     10 : 2200
---     11 : 3900
+--     00 :  600 Hz
+--     01 : 1000 Hz
+--     10 : 2200 Hz
+--     11 : 3900 Hz
 
 architecture behaviour of GenSen is
 
