@@ -22,7 +22,13 @@ architecture sim of GenSen_tb is
 
     constant PERIOD : time := 10 ns; -- 100 MHz
 begin
-    clk_s <= '1', '0' after PERIOD/2;
+    clock: process
+    begin
+        clk_s <= '1';
+        wait for PERIOD / 2;
+        clk_s <= '0';
+        wait for PERIOD / 2;
+    end process;
 
     rst: process
     begin
@@ -42,6 +48,13 @@ begin
         wait for 4 * PERIOD;
         per_s <= "11";
         wait for 4 * PERIOD;
+    end process;
+
+    end_test: process
+    begin
+        wait for 20 * PERIOD;
+        assert False
+        report "OK" severity failure;
     end process;
 
     UUT: GenSen
