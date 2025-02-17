@@ -43,9 +43,13 @@ begin
         per_s <= "00";
         wait for 1000 ms;
         per_s <= "01";
-        wait for 1000 ms;
+        wait for 250 ms;
+        per_s <= "00";
+        wait for 250 ms;
         per_s <= "10";
-        wait for 1000 ms;
+        wait for 250 ms;
+        per_s <= "01";
+        wait for 250 ms;
         per_s <= "11";
         wait for 1000 ms;
     end process;
