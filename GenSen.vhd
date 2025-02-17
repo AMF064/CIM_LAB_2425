@@ -34,9 +34,9 @@ begin
 
     with per select
         max_count_s <=  600 when "00",
-                       1000 when "01",
-                       2200 when "10",
-                       3900 when others;
+                        1000 when "01",
+                        2200 when "10",
+                        3900 when others;
 
     timer: process(Clk, Reset)
     begin
@@ -67,7 +67,6 @@ begin
     end process;
 
     sine_rom: rom
-    port map (
-        address => ptr_s,
-        data_out => data_s);
+    port map (address => ptr_s,
+              data_out => data_s);
 end architecture;
