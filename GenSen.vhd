@@ -14,6 +14,29 @@ end GenSen;
 --     01 : 1000 Hz
 --     10 : 2200 Hz
 --     11 : 3900 Hz
+-- Calculos para hallar los numeros que hay que poner:
+--
+--
+--
+--
+--            o
+--         o  |  o
+--      o  |  |  |  o
+--   o  |  |  |  |  |  o
+--o--|--|--|--|--|--|--|--o--|--|--|--|--|--|--|--|--o--------------
+--   <-->                    o  |  |  |  |  |  |  o
+--Tclk x N                      o  |  |  |  |  o
+--                                 o  |  |  o
+--                                    o  o
+--
+-- Periodo completo: T = 16 * N * Tclk, donde N es el numero al que cuenta el temporizador.
+--  Para sacar una frecuencia concreta:
+--              f = 1/T = 1 / 16 / N / Tclk; N = fclk / 16 / f
+--
+--   f = 600 Hz : N ~ 10417
+--   f = 1 KHz  : N = 6250
+--   f = 2.2KHz : N ~ 2841
+--   f = 3.9KHz : N ~ 1603
 
 architecture behaviour of GenSen is
 
