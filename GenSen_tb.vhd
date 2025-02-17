@@ -41,18 +41,18 @@ begin
     periods: process
     begin
         per_s <= "00";
-        wait for 4 * PERIOD;
+        wait for 1000 ms;
         per_s <= "01";
-        wait for 4 * PERIOD;
+        wait for 1000 ms;
         per_s <= "10";
-        wait for 4 * PERIOD;
+        wait for 1000 ms;
         per_s <= "11";
-        wait for 4 * PERIOD;
+        wait for 1000 ms;
     end process;
 
     end_test: process
     begin
-        wait for 20 * PERIOD;
+        wait for 5000 ms;
         assert False
         report "OK" severity failure;
     end process;
