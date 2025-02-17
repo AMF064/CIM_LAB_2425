@@ -45,7 +45,7 @@ architecture behaviour of GenSen is
               data_out : out signed(7 downto 0));
     end component;
 
-    signal max_count_s, timer_s : natural range 0 to 3900;
+    signal max_count_s, timer_s : natural range 0 to 10420;
     signal ptr_s : natural range 0 to 15;
     signal data_s : signed(7 downto 0);
     signal eoc_s : std_logic;
@@ -53,20 +53,20 @@ begin
 
     led <= data_s;
     dac <= unsigned(data_s + 128);
-    eoc_s <= '1' when timer_s = max_count_s else '0';
+    eoc_s <= '1' when timer_s >= max_count_s else '0';
 
     with per select
-        max_count_s <=  600 when "00",
-                        1000 when "01",
-                        2200 when "10",
-                        3900 when others;
+        max_count_s <=  10417 when "00",
+                         6250 when "01",
+                         2841 when "10",
+                         1603 when others;
 
     timer: process(Clk, Reset)
     begin
         if Reset = '0' then
             timer_s <= 0;
         elsif rising_edge(Clk) then
-            if timer_s = max_count_s then
+            if timer_s >= max_count_s then
                 timer_s <= 0;
             else
                 timer_s <= timer_s + 1;
