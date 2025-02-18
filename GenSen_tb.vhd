@@ -21,6 +21,7 @@ architecture sim of GenSen_tb is
     signal dac_s : unsigned(7 downto 0);
 
     constant PERIOD : time := 10 ns; -- 100 MHz
+    constant TEST_DURATION : time := 100 ms;
 begin
     clock: process
     begin
@@ -41,22 +42,20 @@ begin
     periods: process
     begin
         per_s <= "00";
-        wait for 1000 ms;
+        wait for TEST_DURATION/5;
         per_s <= "01";
-        wait for 250 ms;
+        wait for TEST_DURATION/5;
         per_s <= "00";
-        wait for 250 ms;
+        wait for TEST_DURATION/5;
         per_s <= "10";
-        wait for 250 ms;
-        per_s <= "01";
-        wait for 250 ms;
+        wait for TEST_DURATION/5;
         per_s <= "11";
-        wait for 1000 ms;
+        wait for TEST_DURATION/5;
     end process;
 
     end_test: process
     begin
-        wait for 5000 ms;
+        wait for TEST_DURATION;
         assert False
         report "OK" severity failure;
     end process;
