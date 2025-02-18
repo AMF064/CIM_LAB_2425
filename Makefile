@@ -3,6 +3,7 @@ ELA := ghdl -e # elaborate
 RUN := ghdl -r # run
 TARGETS := GenSen rom GenSen_tb
 SRC := ${TARGETS:%=%.vhd}
+TEST_WAVEFORM_FILE := test_out.vcd
 
 .PHONY: all ${TARGETS} clean test
 all: ${TARGETS}
@@ -20,7 +21,7 @@ GenSen_tb: GenSen_tb.vhd GenSen rom
 	${ELA} $@
 
 test: GenSen_tb
-	${RUN} $<
+	${RUN} $< --vcd=${TEST_WAVEFORM_FILE}
 
 clean:
 	shred -u work-obj93.cf
