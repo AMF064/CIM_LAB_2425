@@ -20,6 +20,7 @@ end FIR;
 
 -- Store the samples of the signal in a shift buffer, then
 --  multiply and add just in the output.
+-- TODO: implement sampling effect
 architecture parallel of FIR is
     type buffer_t is array(integer range 0 to 9) of signed(7 downto 0);
     signal sample_buffer : buffer_t;
