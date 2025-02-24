@@ -71,7 +71,7 @@ architecture behaviour of GenSen is
 begin
 
     led <= data_s;
-    dac <= unsigned(data_s) + to_unsigned(128, 8);
+    dac <= unsigned(fir_out_s) + to_unsigned(128, 8);
     eoc_s <= '1' when timer_s >= max_count_s else '0';
 
     with per select
