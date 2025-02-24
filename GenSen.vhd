@@ -45,10 +45,29 @@ architecture behaviour of GenSen is
               data_out : out signed(7 downto 0));
     end component;
 
+    component FIR is
+        generic (a0 : integer;
+                 a1 : integer;
+                 a2 : integer;
+                 a3 : integer;
+                 a4 : integer;
+                 a5 : integer;
+                 a6 : integer;
+                 a7 : integer;
+                 a8 : integer;
+                 a9 : integer);
+        port (Clk, Reset, Enable : in std_logic;
+              DataIn : in signed(7 downto 0);
+              DataOut : out signed(7 downto 0));
+    end component;
+
     signal max_count_s, timer_s : natural range 0 to 10420;
     signal ptr_s : natural range 0 to 15;
-    signal data_s : signed(7 downto 0);
+    signal data_s, fir_out_s : signed(7 downto 0);
     signal eoc_s : std_logic;
+    signal fir_ena_s : std_logic;
+
+    constant N_SAMPLING : natural := 10000;
 begin
 
     led <= data_s;
@@ -60,6 +79,26 @@ begin
                          6250 when "01",
                          2841 when "10",
                          1603 when others;
+
+  -- Basys3: fclk = 100 Mhz; Tclk = 10^-8 = 10 ns;
+  -- Queremos: f_samp = 10 KHz => Ts = 10^-4 = 100 us;
+  -- Necesitamos contar 10^-4/10^-8 = 10^4 periodos del reloj.
+    sampler: process(Clk, Reset)
+        variable count_v : natural range 0 to 10000 := 0;
+    begin
+        if Reset = '0' then
+            count_v := 0;
+            fir_ena_s <= '0';
+        elsif rising_edge(Clk) then
+            if count_v >= N_SAMPLING then
+                count_v := 0;
+                fir_ena_s <= '1';
+            else
+                count_v := count_v + 1;
+                fir_ena_s <= '0';
+            end if;
+        end if;
+    end process;
 
     timer: process(Clk, Reset)
     begin
@@ -92,4 +131,23 @@ begin
     sine_rom: rom
     port map (address => ptr_s,
               data_out => data_s);
+
+    fir_filter: FIR
+    generic map(
+        a0 => 0,
+        a1 => -1,
+        a2 => 5,
+        a3 => -18,
+        a4 => 78,
+        a5 => 78,
+        a6 => -18,
+        a7 => 5,
+        a8 => -1,
+        a9 => 0)
+    port map (
+        Clk => Clk,
+        Reset => Reset,
+        Enable => fir_ena_s,
+        DataIn => data_s,
+        DataOut => fir_out_s);
 end architecture;
