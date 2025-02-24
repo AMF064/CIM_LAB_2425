@@ -1,5 +1,5 @@
-nums = [ -0.0021 -0.0243 -0.0191 0.1496 0.3958 0.3958 0.1496 -0.0191 -0.0243 -0.0021];
+nums = [0.0007 -0.0070 0.0368 -0.1376 0.6071 0.6071 -0.1376 0.0368 -0.0070 0.0007];
 constant = 127 / max(nums);
 coeffs = constant * nums';
 disp(round(coeffs));
-disp(constant);
+disp(["Constant: " num2str(constant)]);
