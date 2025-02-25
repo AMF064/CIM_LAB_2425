@@ -23,19 +23,6 @@ end FIR;
 architecture parallel of FIR is
     type buffer_t is array(integer range 0 to 9) of signed(7 downto 0);
     signal sample_buffer : buffer_t;
-    constant constants : buffer_t := (
-    to_signed(a0, 8),
-    to_signed(a1, 8),
-    to_signed(a2, 8),
-    to_signed(a3, 8),
-    to_signed(a4, 8),
-    to_signed(a5, 8),
-    to_signed(a6, 8),
-    to_signed(a7, 8),
-    to_signed(a8, 8),
-    to_signed(a9, 8));
-    type aux_mult_t is array(integer range 0 to 9) of signed(15 downto 0);
-    signal aux_mult : aux_mult_t;
     signal out_s : signed(25 downto 0);
 begin
     calculation: process (Clk, Reset)
@@ -46,19 +33,16 @@ begin
         elsif rising_edge(Clk) then
             if Enable = '1' then
                 sample_buffer <= DataIn & sample_buffer(0 to 8);
-                for i in 0 to 9 loop
-                    aux_mult(i) <= constants(i) * sample_buffer(i);
-                end loop;
-                out_s <= resize(aux_mult(0), out_s'length) +
-                         resize(aux_mult(1), out_s'length) +
-                         resize(aux_mult(2), out_s'length) +
-                         resize(aux_mult(3), out_s'length) +
-                         resize(aux_mult(4), out_s'length) +
-                         resize(aux_mult(5), out_s'length) +
-                         resize(aux_mult(6), out_s'length) +
-                         resize(aux_mult(7), out_s'length) +
-                         resize(aux_mult(8), out_s'length) +
-                         resize(aux_mult(9), out_s'length);
+                out_s <= resize(a0 * sample_buffer(0), out_s'length) +
+                         resize(a1 * sample_buffer(1), out_s'length) +
+                         resize(a2 * sample_buffer(2), out_s'length) +
+                         resize(a3 * sample_buffer(3), out_s'length) +
+                         resize(a4 * sample_buffer(4), out_s'length) +
+                         resize(a5 * sample_buffer(5), out_s'length) +
+                         resize(a6 * sample_buffer(6), out_s'length) +
+                         resize(a7 * sample_buffer(7), out_s'length) +
+                         resize(a8 * sample_buffer(8), out_s'length) +
+                         resize(a9 * sample_buffer(9), out_s'length);
             end if;
         end if;
     end process;
