@@ -47,16 +47,7 @@ begin
         end if;
     end process;
 
-    register_out: process(Clk, Reset)
-    begin
-        if Reset = '0' then
-            DataOut <= (others => '0');
-        elsif rising_edge(Clk) then
-            if Enable = '1' then
-                DataOut <= out_s(16 downto 9);
-            end if;
-        end if;
-    end process;
+    DataOut <= out_s(16 downto 9);
 end architecture;
 
 -- architecture pipelined of FIR is
