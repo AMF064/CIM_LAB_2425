@@ -59,8 +59,6 @@ begin
                          resize(aux_mult(7), out_s'length) +
                          resize(aux_mult(8), out_s'length) +
                          resize(aux_mult(9), out_s'length);
-            else
-                out_s <= (others => '0');
             end if;
         end if;
     end process;
@@ -71,7 +69,8 @@ begin
             DataOut <= (others => '0');
         elsif rising_edge(Clk) then
             if Enable = '1' then
-                DataOut <= resize(out_s, 8);
+                --DataOut <= resize(out_s, 8);
+                DataOut <= out_s(7 downto 0);
             end if;
         end if;
     end process;

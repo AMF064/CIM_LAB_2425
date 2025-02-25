@@ -1,6 +1,6 @@
-nums = [0.0007 -0.0070 0.0368 -0.1376 0.6071 0.6071 -0.1376 0.0368 -0.0070 0.0007];
+nums = [-0.0558 0.0001 0.0893 0.2101 0.2971 0.2971 0.2101 0.0893 0.0001 -0.0558];
 k = floor(log2(127/max(nums)))
 coeffs = 2^k * nums';
 round_coeffs = round(coeffs)
-assert(round_coeffs < 2^8);
+assert(round_coeffs < 2^7 - 1);
 constant = 2^k
