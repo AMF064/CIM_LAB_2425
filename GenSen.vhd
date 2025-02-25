@@ -6,7 +6,7 @@ entity GenSen is
     port (Clk, Reset : in std_logic;
           per : in std_logic_vector(1 downto 0);
           led : out signed(7 downto 0);
-          dac : out unsigned(7 downto 0));
+          dac1, dac2 : out unsigned(7 downto 0));
 end GenSen;
 
 -- Grupo 20:
@@ -45,14 +45,35 @@ architecture behaviour of GenSen is
               data_out : out signed(7 downto 0));
     end component;
 
+    component FIR is
+        generic (a0 : integer range -128 to 127;
+                 a1 : integer range -128 to 127;
+                 a2 : integer range -128 to 127;
+                 a3 : integer range -128 to 127;
+                 a4 : integer range -128 to 127;
+                 a5 : integer range -128 to 127;
+                 a6 : integer range -128 to 127;
+                 a7 : integer range -128 to 127;
+                 a8 : integer range -128 to 127;
+                 a9 : integer range -128 to 127);
+        port (Clk, Reset, Enable : in std_logic;
+              DataIn : in signed(7 downto 0);
+              DataOut : out signed(7 downto 0));
+    end component;
+
+    constant N_SAMPLING : natural := 10000;
+
     signal max_count_s, timer_s : natural range 0 to 10420;
     signal ptr_s : natural range 0 to 15;
-    signal data_s : signed(7 downto 0);
+    signal data_s, fir_out_s : signed(7 downto 0);
     signal eoc_s : std_logic;
+    signal fir_ena_s : std_logic;
+
 begin
 
     led <= data_s;
-    dac <= unsigned(data_s) + to_unsigned(128, 8);
+    dac1 <= unsigned(data_s) + to_unsigned(128, 8);
+    dac2 <= unsigned(fir_out_s) + to_unsigned(128, 8);
     eoc_s <= '1' when timer_s >= max_count_s else '0';
 
     with per select
@@ -60,6 +81,26 @@ begin
                          6250 when "01",
                          2841 when "10",
                          1603 when others;
+
+  -- Basys3: fclk = 100 Mhz; Tclk = 10^-8 = 10 ns;
+  -- Queremos: f_samp = 10 KHz => Ts = 10^-4 = 100 us;
+  -- Necesitamos contar 10^-4/10^-8 = 10^4 periodos del reloj.
+    sampler: process(Clk, Reset)
+        variable count_v : natural range 0 to 10000 := 0;
+    begin
+        if Reset = '0' then
+            count_v := 0;
+            fir_ena_s <= '0';
+        elsif rising_edge(Clk) then
+            if count_v >= N_SAMPLING then
+                count_v := 0;
+                fir_ena_s <= '1';
+            else
+                count_v := count_v + 1;
+                fir_ena_s <= '0';
+            end if;
+        end if;
+    end process;
 
     timer: process(Clk, Reset)
     begin
@@ -92,4 +133,23 @@ begin
     sine_rom: rom
     port map (address => ptr_s,
               data_out => data_s);
+
+    fir_filter: FIR
+    generic map(
+        a0 => 0,
+        a1 => -1,
+        a2 => 5,
+        a3 => -18,
+        a4 => 78,
+        a5 => 78,
+        a6 => -18,
+        a7 => 5,
+        a8 => -1,
+        a9 => 0)
+    port map (
+        Clk => Clk,
+        Reset => Reset,
+        Enable => fir_ena_s,
+        DataIn => data_s,
+        DataOut => fir_out_s);
 end architecture;
