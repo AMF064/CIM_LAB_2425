@@ -70,7 +70,7 @@ begin
         elsif rising_edge(Clk) then
             if Enable = '1' then
                 --DataOut <= resize(out_s, 8);
-                DataOut <= out_s(7 downto 0);
+                DataOut <= out_s(17 downto 10);
             end if;
         end if;
     end process;
