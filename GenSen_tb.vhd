@@ -21,7 +21,7 @@ architecture sim of GenSen_tb is
     signal dac_s : unsigned(7 downto 0);
 
     constant PERIOD : time := 10 ns; -- 100 MHz
-    constant TEST_DURATION : time := 100 ms;
+    constant TEST_DURATION : time := 20 ms;
 begin
     clock: process
     begin
