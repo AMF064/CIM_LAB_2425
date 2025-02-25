@@ -6,7 +6,7 @@ entity GenSen is
     port (Clk, Reset : in std_logic;
           per : in std_logic_vector(1 downto 0);
           led : out signed(7 downto 0);
-          dac : out unsigned(7 downto 0));
+          dac1, dac2 : out unsigned(7 downto 0));
 end GenSen;
 
 -- Grupo 20:
@@ -46,20 +46,22 @@ architecture behaviour of GenSen is
     end component;
 
     component FIR is
-        generic (a0 : integer;
-                 a1 : integer;
-                 a2 : integer;
-                 a3 : integer;
-                 a4 : integer;
-                 a5 : integer;
-                 a6 : integer;
-                 a7 : integer;
-                 a8 : integer;
-                 a9 : integer);
+        generic (a0 : integer range -128 to 127;
+                 a1 : integer range -128 to 127;
+                 a2 : integer range -128 to 127;
+                 a3 : integer range -128 to 127;
+                 a4 : integer range -128 to 127;
+                 a5 : integer range -128 to 127;
+                 a6 : integer range -128 to 127;
+                 a7 : integer range -128 to 127;
+                 a8 : integer range -128 to 127;
+                 a9 : integer range -128 to 127);
         port (Clk, Reset, Enable : in std_logic;
               DataIn : in signed(7 downto 0);
               DataOut : out signed(7 downto 0));
     end component;
+
+    constant N_SAMPLING : natural := 10000;
 
     signal max_count_s, timer_s : natural range 0 to 10420;
     signal ptr_s : natural range 0 to 15;
@@ -67,11 +69,11 @@ architecture behaviour of GenSen is
     signal eoc_s : std_logic;
     signal fir_ena_s : std_logic;
 
-    constant N_SAMPLING : natural := 10000;
 begin
 
     led <= data_s;
-    dac <= unsigned(fir_out_s) + to_unsigned(128, 8);
+    dac1 <= unsigned(data_s) + to_unsigned(128, 8);
+    dac2 <= unsigned(fir_out_s) + to_unsigned(128, 8);
     eoc_s <= '1' when timer_s >= max_count_s else '0';
 
     with per select

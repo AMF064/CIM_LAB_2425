@@ -12,13 +12,13 @@ architecture sim of GenSen_tb is
         port (Clk, Reset : in std_logic;
               per : in std_logic_vector(1 downto 0);
               led : out signed(7 downto 0);
-              dac : out unsigned(7 downto 0));
+              dac1, dac2 : out unsigned(7 downto 0));
     end component;
 
     signal clk_s, reset_s : std_logic;
     signal per_s : std_logic_vector(1 downto 0);
     signal led_s : signed(7 downto 0);
-    signal dac_s : unsigned(7 downto 0);
+    signal dac1_s, dac2_s : unsigned(7 downto 0);
 
     constant PERIOD : time := 10 ns; -- 100 MHz
     constant TEST_DURATION : time := 20 ms;
@@ -64,6 +64,7 @@ begin
     port map (Clk => clk_s,
               Reset => reset_s,
               per => per_s,
-              dac => dac_s,
+              dac1 => dac1_s,
+              dac2 => dac2_s,
               led => led_s);
 end architecture;

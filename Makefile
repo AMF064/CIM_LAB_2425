@@ -1,7 +1,7 @@
 FLAGS :=
-ANL := ghdl -a ${FLAGS} # analyze
-ELA := ghdl -e ${FLAGS} # elaborate
-RUN := ghdl -r ${FLAGS} # run
+ANL := ghdl analyze ${FLAGS}
+ELA := ghdl elaborate ${FLAGS}
+RUN := ghdl run ${FLAGS}
 TARGETS := GenSen rom GenSen_tb FIR
 SRC := ${TARGETS:%=%.vhd}
 TEST_WAVEFORM_FILE := test_out.vcd
