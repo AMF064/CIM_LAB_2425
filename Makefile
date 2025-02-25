@@ -1,6 +1,7 @@
-ANL := ghdl -a --std=08 # analyze
-ELA := ghdl -e --std=08 # elaborate
-RUN := ghdl -r --std=08 # run
+FLAGS :=
+ANL := ghdl -a ${FLAGS} # analyze
+ELA := ghdl -e ${FLAGS} # elaborate
+RUN := ghdl -r ${FLAGS} # run
 TARGETS := GenSen rom GenSen_tb FIR
 SRC := ${TARGETS:%=%.vhd}
 TEST_WAVEFORM_FILE := test_out.vcd
