@@ -2,9 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity GenSen_tb is
-begin
-end GenSen_tb;
+entity GenSen_tb is end GenSen_tb;
 
 architecture sim of GenSen_tb is
 
