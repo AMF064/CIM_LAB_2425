@@ -82,9 +82,9 @@ begin
                          2841 when "10",
                          1603 when others;
 
-  -- Basys3: fclk = 100 Mhz; Tclk = 10^-8 = 10 ns;
-  -- Queremos: f_samp = 10 KHz => Ts = 10^-4 = 100 us;
-  -- Necesitamos contar 10^-4/10^-8 = 10^4 periodos del reloj.
+    -- Basys3: fclk = 100 Mhz; Tclk = 10^-8 = 10 ns;
+    -- Queremos: f_samp = 10 KHz => Ts = 10^-4 = 100 us;
+    -- Necesitamos contar 10^-4/10^-8 = 10^4 periodos del reloj.
     sampler: process(Clk, Reset)
         variable count_v : natural range 0 to 10000 := 0;
     begin
