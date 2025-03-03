@@ -137,14 +137,14 @@ begin
     fir_filter: FIR
     generic map(
         a0 => -14,
-        a1 =>   0,
+        a1 =>   2, --0,
         a2 =>  23,
         a3 =>  54,
         a4 =>  76,
         a5 =>  76,
         a6 =>  54,
         a7 =>  23,
-        a8 =>   0,
+        a8 =>   2, --0,
         a9 => -14)
     port map (
         Clk => Clk,
