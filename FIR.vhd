@@ -45,7 +45,7 @@ begin
             sample_buffer <= (others => (others => '0'));
         elsif rising_edge(Clk) then
             if Enable = '1' then
-                sample_buffer <= DataIn & sample_buffer(0 to 8);
+                sample_buffer <= DataIn & sample_buffer(0 to sample_buffer'right - 1);
             end if;
         end if;
     end process;
