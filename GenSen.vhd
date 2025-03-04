@@ -86,7 +86,7 @@ begin
     -- Queremos: f_samp = 10 KHz => Ts = 10^-4 = 100 us;
     -- Necesitamos contar 10^-4/10^-8 = 10^4 periodos del reloj.
     sampler: process(Clk, Reset)
-        variable count_v : natural range 0 to 10000 := 0;
+        variable count_v : natural range 0 to N_SAMPLING := 0;
     begin
         if Reset = '0' then
             count_v := 0;
