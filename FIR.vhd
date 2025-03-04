@@ -27,6 +27,16 @@ architecture parallel of FIR is
 begin
 
     DataOut <= out_s(16 downto 9);
+    out_s <= resize(a0 * sample_buffer(0), out_s'length) +
+             resize(a1 * sample_buffer(1), out_s'length) +
+             resize(a2 * sample_buffer(2), out_s'length) +
+             resize(a3 * sample_buffer(3), out_s'length) +
+             resize(a4 * sample_buffer(4), out_s'length) +
+             resize(a5 * sample_buffer(5), out_s'length) +
+             resize(a6 * sample_buffer(6), out_s'length) +
+             resize(a7 * sample_buffer(7), out_s'length) +
+             resize(a8 * sample_buffer(8), out_s'length) +
+             resize(a9 * sample_buffer(9), out_s'length) when Reset = '1' else (others => '0');
 
     calculation: process (Clk, Reset)
     begin
@@ -36,16 +46,6 @@ begin
         elsif rising_edge(Clk) then
             if Enable = '1' then
                 sample_buffer <= DataIn & sample_buffer(0 to 8);
-                out_s <= resize(a0 * sample_buffer(0), out_s'length) +
-                         resize(a1 * sample_buffer(1), out_s'length) +
-                         resize(a2 * sample_buffer(2), out_s'length) +
-                         resize(a3 * sample_buffer(3), out_s'length) +
-                         resize(a4 * sample_buffer(4), out_s'length) +
-                         resize(a5 * sample_buffer(5), out_s'length) +
-                         resize(a6 * sample_buffer(6), out_s'length) +
-                         resize(a7 * sample_buffer(7), out_s'length) +
-                         resize(a8 * sample_buffer(8), out_s'length) +
-                         resize(a9 * sample_buffer(9), out_s'length);
             end if;
         end if;
     end process;
