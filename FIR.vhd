@@ -21,7 +21,7 @@ end FIR;
 -- Store the samples of the signal in a shift buffer, then
 --  multiply and add just in the output.
 architecture parallel of FIR is
-    type buffer_t is array(integer range 0 to 9) of signed(7 downto 0);
+    type buffer_t is array(integer range 0 to 8) of signed(7 downto 0);
     signal sample_buffer : buffer_t;
     signal out_s : signed(25 downto 0);
 begin
@@ -35,17 +35,17 @@ begin
             sample_buffer <= (others => (others => '0'));
         elsif rising_edge(Clk) then
             if Enable = '1' then
-                sample_buffer <= DataIn & sample_buffer(0 to 8);
-                out_s <= resize(a0 * sample_buffer(0), out_s'length) +
-                         resize(a1 * sample_buffer(1), out_s'length) +
-                         resize(a2 * sample_buffer(2), out_s'length) +
-                         resize(a3 * sample_buffer(3), out_s'length) +
-                         resize(a4 * sample_buffer(4), out_s'length) +
-                         resize(a5 * sample_buffer(5), out_s'length) +
-                         resize(a6 * sample_buffer(6), out_s'length) +
-                         resize(a7 * sample_buffer(7), out_s'length) +
-                         resize(a8 * sample_buffer(8), out_s'length) +
-                         resize(a9 * sample_buffer(9), out_s'length);
+                sample_buffer <= DataIn & sample_buffer(0 to sample_buffer'right - 1);
+                out_s <= resize(a0 * DataIn, out_s'length) +
+                         resize(a1 * sample_buffer(0), out_s'length) +
+                         resize(a2 * sample_buffer(1), out_s'length) +
+                         resize(a3 * sample_buffer(2), out_s'length) +
+                         resize(a4 * sample_buffer(3), out_s'length) +
+                         resize(a5 * sample_buffer(4), out_s'length) +
+                         resize(a6 * sample_buffer(5), out_s'length) +
+                         resize(a7 * sample_buffer(6), out_s'length) +
+                         resize(a8 * sample_buffer(7), out_s'length) +
+                         resize(a9 * sample_buffer(8), out_s'length);
             end if;
         end if;
     end process;
