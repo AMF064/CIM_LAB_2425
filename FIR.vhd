@@ -80,7 +80,7 @@ end architecture;
 --                                       resize(a6 * sample_buffer(5 + 1 + 1), intermed_buffer(0)'length) +
 --                                       resize(a7 * sample_buffer(6 + 1 + 1), intermed_buffer(0)'length) +
 --                                       resize(a8 * sample_buffer(7 + 1 + 1), intermed_buffer(0)'length);
---                 out_s <= intermed_buffer(2) + resize(a9 * sample_buffer(8 + 1 + 1 + 1), out_s'length);
+--                 out_s <= intermed_buffer(2) + resize(a9 * sample_buffer(8 + 1 + 1), out_s'length);
 --             end if;
 --         end if;
 --     end process;
